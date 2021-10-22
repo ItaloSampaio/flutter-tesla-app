@@ -20,8 +20,8 @@ class _HomeScreenState extends State<HomeScreen>
   final _homeController = HomeController();
 
   late AnimationController _batteryAnimationController;
-  late Animation<double> _animationBattery;
-  late Animation<double> _animationBatteryStatus;
+  late Animation<double> _batteryAnimation;
+  late Animation<double> _batteryStatusAnimation;
 
   @override
   void initState() {
@@ -35,12 +35,12 @@ class _HomeScreenState extends State<HomeScreen>
       duration: const Duration(milliseconds: 600),
     );
 
-    _animationBattery = CurvedAnimation(
+    _batteryAnimation = CurvedAnimation(
       parent: _batteryAnimationController,
       curve: const Interval(0.0, 0.5),
     );
 
-    _animationBatteryStatus = CurvedAnimation(
+    _batteryStatusAnimation = CurvedAnimation(
       parent: _batteryAnimationController,
       curve: const Interval(0.6, 1.0),
     );
@@ -90,18 +90,18 @@ class _HomeScreenState extends State<HomeScreen>
                     ),
                     ...buildLockButtons(constraints),
                     Opacity(
-                      opacity: _animationBattery.value,
+                      opacity: _batteryAnimation.value,
                       child: SvgPicture.asset(
                         Assets.svgs.battery,
                         width: constraints.maxWidth * 0.45,
                       ),
                     ),
                     Positioned(
-                      top: 50 * (1 - _animationBatteryStatus.value),
+                      top: 50 * (1 - _batteryStatusAnimation.value),
                       height: constraints.maxHeight,
                       width: constraints.maxWidth,
                       child: Opacity(
-                        opacity: _animationBatteryStatus.value,
+                        opacity: _batteryStatusAnimation.value,
                         child: BatteryStatus(constraints: constraints),
                       ),
                     ),
