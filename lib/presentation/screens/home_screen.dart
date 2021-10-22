@@ -19,7 +19,7 @@ class _HomeScreenState extends State<HomeScreen>
     with SingleTickerProviderStateMixin {
   final _homeController = HomeController();
 
-  late AnimationController _baterryAnimationController;
+  late AnimationController _batteryAnimationController;
   late Animation<double> _animationBattery;
   late Animation<double> _animationBatteryStatus;
 
@@ -30,25 +30,25 @@ class _HomeScreenState extends State<HomeScreen>
   }
 
   void _setupBatteryAnimation() {
-    _baterryAnimationController = AnimationController(
+    _batteryAnimationController = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 600),
     );
 
     _animationBattery = CurvedAnimation(
-      parent: _baterryAnimationController,
+      parent: _batteryAnimationController,
       curve: const Interval(0.0, 0.5),
     );
 
     _animationBatteryStatus = CurvedAnimation(
-      parent: _baterryAnimationController,
+      parent: _batteryAnimationController,
       curve: const Interval(0.6, 1.0),
     );
   }
 
   @override
   void dispose() {
-    _baterryAnimationController.dispose();
+    _batteryAnimationController.dispose();
     super.dispose();
   }
 
@@ -57,7 +57,7 @@ class _HomeScreenState extends State<HomeScreen>
     return AnimatedBuilder(
       animation: Listenable.merge([
         _homeController,
-        _baterryAnimationController,
+        _batteryAnimationController,
       ]),
       builder: (context, snapshot) {
         return Scaffold(
@@ -65,9 +65,9 @@ class _HomeScreenState extends State<HomeScreen>
             selectedTabIndex: _homeController.selectedBottomTabIndex,
             onTap: (index) {
               if (index == 1) {
-                _baterryAnimationController.forward();
+                _batteryAnimationController.forward();
               } else if (_homeController.selectedBottomTabIndex == 1) {
-                _baterryAnimationController.reverse(from: 0.75);
+                _batteryAnimationController.reverse(from: 0.75);
               }
 
               _homeController.changeBottomTabIndex(index);
