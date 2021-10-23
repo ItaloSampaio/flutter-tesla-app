@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:tesla_app/presentation/controllers/home_controller.dart';
 import 'package:tesla_app/presentation/core/assets.dart';
 import 'package:tesla_app/presentation/core/constants.dart';
 
+import 'home_controller.dart';
 import 'widgets/widgets.dart';
 
 class HomeScreen extends StatefulWidget {
