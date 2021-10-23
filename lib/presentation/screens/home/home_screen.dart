@@ -13,9 +13,10 @@ class HomeScreen extends StatefulWidget {
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen>
-    with SingleTickerProviderStateMixin {
+class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   final _homeController = HomeController();
+
+  late AnimationController _lockAnimationController;
 
   late AnimationController _batteryAnimationController;
   late Animation<double> _batteryAnimation;
@@ -23,8 +24,17 @@ class _HomeScreenState extends State<HomeScreen>
 
   @override
   void initState() {
+    _setupLockAnimation();
     _setupBatteryAnimation();
     super.initState();
+  }
+
+  void _setupLockAnimation() {
+    _lockAnimationController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 200),
+      value: 1,
+    );
   }
 
   void _setupBatteryAnimation() {
@@ -46,6 +56,7 @@ class _HomeScreenState extends State<HomeScreen>
 
   @override
   void dispose() {
+    _lockAnimationController.dispose();
     _batteryAnimationController.dispose();
     super.dispose();
   }
@@ -62,6 +73,12 @@ class _HomeScreenState extends State<HomeScreen>
           bottomNavigationBar: BottomTabBar(
             selectedTabIndex: _homeController.selectedBottomTabIndex,
             onTap: (index) {
+              if (index == 0) {
+                _lockAnimationController.forward();
+              } else if (_homeController.selectedBottomTabIndex == 0) {
+                _lockAnimationController.reverse();
+              }
+
               if (index == 1) {
                 _batteryAnimationController.forward();
               } else if (_homeController.selectedBottomTabIndex == 1) {
@@ -87,7 +104,8 @@ class _HomeScreenState extends State<HomeScreen>
                       ),
                     ),
                     LockScreen(
-                      isVisible: _homeController.selectedBottomTabIndex == 0,
+                      constraints: constraints,
+                      animationController: _lockAnimationController,
                     ),
                     Opacity(
                       opacity: _batteryAnimation.value,

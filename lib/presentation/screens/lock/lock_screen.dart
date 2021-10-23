@@ -4,65 +4,69 @@ import 'package:tesla_app/presentation/screens/lock/lock_controller.dart';
 
 import 'widgets/widgets.dart';
 
-class LockScreen extends StatefulWidget {
-  final bool isVisible;
-
-  const LockScreen({
-    Key? key,
-    required this.isVisible,
-  }) : super(key: key);
-
-  @override
-  _LockScreenState createState() => _LockScreenState();
-}
-
-class _LockScreenState extends State<LockScreen> {
+class LockScreen extends StatelessWidget {
   final _lockController = LockController();
+  final Animation<double> _doorPosition;
+  final Animation<double> _hoodPosition;
+  final Animation<double> _trunkPosition;
+
+  final BoxConstraints constraints;
+  final AnimationController animationController;
+
+  LockScreen({
+    Key? key,
+    required this.constraints,
+    required this.animationController,
+  })  : _doorPosition = Tween<double>(
+          begin: constraints.maxWidth / 2,
+          end: constraints.maxWidth * 0.04,
+        ).animate(animationController),
+        _hoodPosition = Tween<double>(
+          begin: constraints.maxHeight / 2,
+          end: constraints.maxHeight * 0.13,
+        ).animate(animationController),
+        _trunkPosition = Tween<double>(
+          begin: constraints.maxHeight / 2,
+          end: constraints.maxHeight * 0.17,
+        ).animate(animationController),
+        super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return AnimatedBuilder(
-        animation: _lockController,
-        builder: (context, snapshot) {
-          return Scaffold(
-            backgroundColor: Colors.transparent,
-            body: SafeArea(
-              child: LayoutBuilder(
-                builder: (context, constraints) {
-                  return Stack(
-                    alignment: Alignment.center,
-                    children: [
-                      buildLockButton(
-                        carLock: CarLock.leftDoor,
-                        left: widget.isVisible
-                            ? constraints.maxWidth * 0.04
-                            : constraints.maxWidth / 2,
-                      ),
-                      buildLockButton(
-                        carLock: CarLock.rightDoor,
-                        right: widget.isVisible
-                            ? constraints.maxWidth * 0.04
-                            : constraints.maxWidth / 2,
-                      ),
-                      buildLockButton(
-                        carLock: CarLock.hood,
-                        top: widget.isVisible
-                            ? constraints.maxHeight * 0.13
-                            : constraints.maxHeight / 2,
-                      ),
-                      buildLockButton(
-                        carLock: CarLock.trunk,
-                        bottom: widget.isVisible
-                            ? constraints.maxHeight * 0.17
-                            : constraints.maxHeight / 2,
-                      ),
-                    ],
-                  );
-                },
-              ),
+      animation: Listenable.merge([
+        _lockController,
+        animationController,
+      ]),
+      builder: (context, snapshot) {
+        return Scaffold(
+          backgroundColor: Colors.transparent,
+          body: SafeArea(
+            child: Stack(
+              alignment: Alignment.center,
+              children: [
+                buildLockButton(
+                  carLock: CarLock.leftDoor,
+                  left: _doorPosition.value,
+                ),
+                buildLockButton(
+                  carLock: CarLock.rightDoor,
+                  right: _doorPosition.value,
+                ),
+                buildLockButton(
+                  carLock: CarLock.hood,
+                  top: _hoodPosition.value,
+                ),
+                buildLockButton(
+                  carLock: CarLock.trunk,
+                  bottom: _trunkPosition.value,
+                ),
+              ],
             ),
-          );
-        });
+          ),
+        );
+      },
+    );
   }
 
   Widget buildLockButton({
@@ -80,7 +84,7 @@ class _LockScreenState extends State<LockScreen> {
       bottom: bottom,
       child: AnimatedOpacity(
         duration: kDefaultDuration,
-        opacity: widget.isVisible ? 1 : 0,
+        opacity: animationController.value,
         child: LockButton(
           isLocked: _lockController.isLocked(carLock),
           onPress: () => _lockController.toggleCarLock(carLock),
