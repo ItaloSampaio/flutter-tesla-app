@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:tesla_app/presentation/core/assets.dart';
+import 'package:tesla_app/presentation/screens/battery/battery_screen.dart';
 import 'package:tesla_app/presentation/screens/lock/lock_screen.dart';
 
 import 'home_controller.dart';
@@ -17,41 +18,22 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   final _homeController = HomeController();
 
   late AnimationController _lockAnimationController;
-
   late AnimationController _batteryAnimationController;
-  late Animation<double> _batteryAnimation;
-  late Animation<double> _batteryStatusAnimation;
 
   @override
   void initState() {
-    _setupLockAnimation();
-    _setupBatteryAnimation();
-    super.initState();
-  }
-
-  void _setupLockAnimation() {
     _lockAnimationController = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 200),
       value: 1,
     );
-  }
 
-  void _setupBatteryAnimation() {
     _batteryAnimationController = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 600),
     );
 
-    _batteryAnimation = CurvedAnimation(
-      parent: _batteryAnimationController,
-      curve: const Interval(0.0, 0.5),
-    );
-
-    _batteryStatusAnimation = CurvedAnimation(
-      parent: _batteryAnimationController,
-      curve: const Interval(0.6, 1.0),
-    );
+    super.initState();
   }
 
   @override
@@ -64,10 +46,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return AnimatedBuilder(
-      animation: Listenable.merge([
-        _homeController,
-        _batteryAnimationController,
-      ]),
+      animation: _homeController,
       builder: (context, snapshot) {
         return Scaffold(
           bottomNavigationBar: BottomTabBar(
@@ -123,21 +102,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                       constraints: constraints,
                       animationController: _lockAnimationController,
                     ),
-                    Opacity(
-                      opacity: _batteryAnimation.value,
-                      child: SvgPicture.asset(
-                        Assets.svgs.battery,
-                        width: constraints.maxWidth * 0.45,
-                      ),
-                    ),
-                    Positioned(
-                      top: 50 * (1 - _batteryStatusAnimation.value),
-                      height: constraints.maxHeight,
-                      width: constraints.maxWidth,
-                      child: Opacity(
-                        opacity: _batteryStatusAnimation.value,
-                        child: BatteryStatus(constraints: constraints),
-                      ),
+                    BatteryScreen(
+                      constraints: constraints,
+                      animationController: _batteryAnimationController,
                     ),
                   ],
                 );
