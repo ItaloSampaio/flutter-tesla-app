@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:tesla_app/presentation/core/assets.dart';
-import 'package:tesla_app/presentation/core/constants.dart';
+import 'package:tesla_app/presentation/screens/lock/lock_screen.dart';
 
 import 'home_controller.dart';
 import 'widgets/widgets.dart';
@@ -86,7 +86,9 @@ class _HomeScreenState extends State<HomeScreen>
                         width: double.infinity,
                       ),
                     ),
-                    ...buildLockButtons(constraints),
+                    LockScreen(
+                      isVisible: _homeController.selectedBottomTabIndex == 0,
+                    ),
                     Opacity(
                       opacity: _batteryAnimation.value,
                       child: SvgPicture.asset(
@@ -110,59 +112,6 @@ class _HomeScreenState extends State<HomeScreen>
           ),
         );
       },
-    );
-  }
-
-  List<Widget> buildLockButtons(BoxConstraints constraints) {
-    return [
-      buildLockButton(
-        carLock: CarLock.leftDoor,
-        left: _homeController.selectedBottomTabIndex == 0
-            ? constraints.maxWidth * 0.04
-            : constraints.maxWidth / 2,
-      ),
-      buildLockButton(
-        carLock: CarLock.rightDoor,
-        right: _homeController.selectedBottomTabIndex == 0
-            ? constraints.maxWidth * 0.04
-            : constraints.maxWidth / 2,
-      ),
-      buildLockButton(
-        carLock: CarLock.hood,
-        top: _homeController.selectedBottomTabIndex == 0
-            ? constraints.maxHeight * 0.13
-            : constraints.maxHeight / 2,
-      ),
-      buildLockButton(
-        carLock: CarLock.trunk,
-        bottom: _homeController.selectedBottomTabIndex == 0
-            ? constraints.maxHeight * 0.17
-            : constraints.maxHeight / 2,
-      ),
-    ];
-  }
-
-  Widget buildLockButton({
-    required CarLock carLock,
-    double? left,
-    double? right,
-    double? top,
-    double? bottom,
-  }) {
-    return AnimatedPositioned(
-      duration: kDefaultDuration,
-      left: left,
-      right: right,
-      top: top,
-      bottom: bottom,
-      child: AnimatedOpacity(
-        duration: kDefaultDuration,
-        opacity: _homeController.selectedBottomTabIndex == 0 ? 1 : 0,
-        child: LockButton(
-          isLocked: _homeController.isLocked(carLock),
-          onPress: () => _homeController.toggleCarLock(carLock),
-        ),
-      ),
     );
   }
 }
