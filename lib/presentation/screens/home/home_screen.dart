@@ -3,10 +3,8 @@ import 'package:flutter_svg/svg.dart';
 import 'package:tesla_app/presentation/controllers/home_controller.dart';
 import 'package:tesla_app/presentation/core/assets.dart';
 import 'package:tesla_app/presentation/core/constants.dart';
-import 'package:tesla_app/presentation/screens/components/battery_status.dart';
 
-import 'components/bottom_tab_bar.dart';
-import 'components/lock_button.dart';
+import 'components/components.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
