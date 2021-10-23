@@ -4,7 +4,7 @@ import 'package:tesla_app/presentation/controllers/home_controller.dart';
 import 'package:tesla_app/presentation/core/assets.dart';
 import 'package:tesla_app/presentation/core/constants.dart';
 
-import 'components/components.dart';
+import 'widgets/widgets.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
