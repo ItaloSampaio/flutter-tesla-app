@@ -72,20 +72,36 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
         return Scaffold(
           bottomNavigationBar: BottomTabBar(
             selectedTabIndex: _homeController.selectedBottomTabIndex,
-            onTap: (index) {
+            onTap: (index) async {
+              TickerFuture Function()? forward;
+              TickerFuture Function()? reverse;
+
               if (index == 0) {
-                _lockAnimationController.forward();
+                forward = () => _lockAnimationController.forward();
               } else if (_homeController.selectedBottomTabIndex == 0) {
-                _lockAnimationController.reverse();
+                reverse = () => _lockAnimationController.reverse();
               }
 
               if (index == 1) {
-                _batteryAnimationController.forward();
+                forward = () => _batteryAnimationController.forward();
               } else if (_homeController.selectedBottomTabIndex == 1) {
-                _batteryAnimationController.reverse(from: 0.75);
+                reverse = () => _batteryAnimationController.reverse(from: 0.75);
               }
 
-              _homeController.changeBottomTabIndex(index);
+              try {
+                if (reverse != null) {
+                  await reverse().orCancel;
+                }
+
+                _homeController.changeBottomTabIndex(index);
+
+                if (forward != null) {
+                  await forward().orCancel;
+                }
+              } on TickerCanceled {
+                // ignore: avoid_print
+                print('Canceled animation');
+              }
             },
           ),
           body: SafeArea(
