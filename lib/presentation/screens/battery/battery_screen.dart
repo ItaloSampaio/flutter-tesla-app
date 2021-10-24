@@ -8,18 +8,18 @@ class BatteryScreen extends StatelessWidget {
   final BoxConstraints constraints;
   final AnimationController animationController;
 
-  final Animation<double> _batteryAnimation;
-  final Animation<double> _statusAnimation;
+  final Animation<double> _batteryOpacity;
+  final Animation<double> _statusPosition;
 
   BatteryScreen({
     Key? key,
     required this.constraints,
     required this.animationController,
-  })  : _batteryAnimation = CurvedAnimation(
+  })  : _batteryOpacity = CurvedAnimation(
           parent: animationController,
           curve: const Interval(0.0, 0.5),
         ),
-        _statusAnimation = CurvedAnimation(
+        _statusPosition = CurvedAnimation(
           parent: animationController,
           curve: const Interval(0.6, 1.0),
         ),
@@ -39,7 +39,7 @@ class BatteryScreen extends StatelessWidget {
                     children: [
                       Center(
                         child: Opacity(
-                          opacity: _batteryAnimation.value,
+                          opacity: _batteryOpacity.value,
                           child: SvgPicture.asset(
                             Assets.svgs.battery,
                             width: constraints.maxWidth * 0.45,
@@ -47,11 +47,11 @@ class BatteryScreen extends StatelessWidget {
                         ),
                       ),
                       Positioned(
-                        top: 50 * (1 - _statusAnimation.value),
+                        top: 50 * (1 - _statusPosition.value),
                         height: constraints.maxHeight,
                         width: constraints.maxWidth,
                         child: Opacity(
-                          opacity: _statusAnimation.value,
+                          opacity: _statusPosition.value,
                           child: BatteryStatus(constraints: constraints),
                         ),
                       ),
