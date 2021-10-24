@@ -3,8 +3,7 @@ import 'package:tesla_app/presentation/screens/lock/lock_controller.dart';
 
 import 'widgets/widgets.dart';
 
-class LockScreen extends StatelessWidget {
-  final _lockController = LockController();
+class LockScreen extends StatefulWidget {
   final Animation<double> _doorPosition;
   final Animation<double> _hoodPosition;
   final Animation<double> _trunkPosition;
@@ -31,14 +30,27 @@ class LockScreen extends StatelessWidget {
         super(key: key);
 
   @override
+  State<LockScreen> createState() => _LockScreenState();
+}
+
+class _LockScreenState extends State<LockScreen> {
+  final _lockController = LockController();
+
+  @override
+  void dispose() {
+    _lockController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return AnimatedBuilder(
       animation: Listenable.merge([
         _lockController,
-        animationController,
+        widget.animationController,
       ]),
       builder: (context, _) {
-        return animationController.value == 0
+        return widget.animationController.value == 0
             ? const SizedBox()
             : Scaffold(
                 backgroundColor: Colors.transparent,
@@ -48,19 +60,19 @@ class LockScreen extends StatelessWidget {
                     children: [
                       buildLockButton(
                         carLock: CarLock.leftDoor,
-                        left: _doorPosition.value,
+                        left: widget._doorPosition.value,
                       ),
                       buildLockButton(
                         carLock: CarLock.rightDoor,
-                        right: _doorPosition.value,
+                        right: widget._doorPosition.value,
                       ),
                       buildLockButton(
                         carLock: CarLock.hood,
-                        top: _hoodPosition.value,
+                        top: widget._hoodPosition.value,
                       ),
                       buildLockButton(
                         carLock: CarLock.trunk,
-                        bottom: _trunkPosition.value,
+                        bottom: widget._trunkPosition.value,
                       ),
                     ],
                   ),
@@ -83,7 +95,7 @@ class LockScreen extends StatelessWidget {
       top: top,
       bottom: bottom,
       child: Opacity(
-        opacity: animationController.value,
+        opacity: widget.animationController.value,
         child: LockButton(
           isLocked: _lockController.isLocked(carLock),
           onPress: () => _lockController.toggleCarLock(carLock),
