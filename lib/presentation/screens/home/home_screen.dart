@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:tesla_app/presentation/core/assets.dart';
 import 'package:tesla_app/presentation/core/constants.dart';
 import 'package:tesla_app/presentation/screens/battery/battery_screen.dart';
 import 'package:tesla_app/presentation/screens/lock/lock_screen.dart';
+import 'package:tesla_app/presentation/screens/temperature/temperature_screen.dart';
+import 'package:tesla_app/presentation/widgets/widgets.dart';
 
 import 'home_controller.dart';
 import 'widgets/widgets.dart';
@@ -17,9 +17,11 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   final _homeController = HomeController();
+  final _carController = CarController();
 
   late AnimationController _lockAnimationController;
   late AnimationController _batteryAnimationController;
+  late AnimationController _temperatureAnimationController;
 
   @override
   void initState() {
@@ -34,6 +36,11 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       duration: const Duration(milliseconds: 600),
     );
 
+    _temperatureAnimationController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 400),
+    );
+
     super.initState();
   }
 
@@ -41,20 +48,25 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   void dispose() {
     _lockAnimationController.dispose();
     _batteryAnimationController.dispose();
+    _temperatureAnimationController.dispose();
+    _carController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return AnimatedBuilder(
-      animation: _homeController,
-      builder: (context, snapshot) {
+      animation: Listenable.merge([
+        _homeController,
+        // _carController,
+      ]),
+      builder: (context, _) {
         return Scaffold(
           bottomNavigationBar: BottomTabBar(
             selectedTabIndex: _homeController.selectedBottomTabIndex,
             onTap: (index) async {
-              TickerFuture Function()? forward;
-              TickerFuture Function()? reverse;
+              Future Function()? forward;
+              Future Function()? reverse;
 
               if (index == 0) {
                 forward = () => _lockAnimationController.forward();
@@ -68,19 +80,28 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                 reverse = () => _batteryAnimationController.reverse(from: 0.75);
               }
 
-              try {
-                if (reverse != null) {
-                  await reverse().orCancel;
-                }
+              if (index == 2) {
+                forward = () async {
+                  await _carController.move(CarPosition.right);
+                  await _temperatureAnimationController.forward();
+                  _carController.isColorVisible = true;
+                };
+              } else if (_homeController.selectedBottomTabIndex == 2) {
+                reverse = () async {
+                  _carController.isColorVisible = false;
+                  await _temperatureAnimationController.reverse();
+                  await _carController.move(CarPosition.center);
+                };
+              }
 
-                _homeController.changeBottomTabIndex(index);
+              if (reverse != null) {
+                await reverse();
+              }
 
-                if (forward != null) {
-                  await forward().orCancel;
-                }
-              } on TickerCanceled {
-                // ignore: avoid_print
-                print('Canceled animation');
+              _homeController.changeBottomTabIndex(index);
+
+              if (forward != null) {
+                await forward();
               }
             },
           ),
@@ -90,14 +111,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                 return Stack(
                   alignment: Alignment.center,
                   children: [
-                    Padding(
-                      padding: EdgeInsets.symmetric(
-                        vertical: constraints.maxHeight * 0.1,
-                      ),
-                      child: SvgPicture.asset(
-                        Assets.svgs.car,
-                        width: double.infinity,
-                      ),
+                    CarBackground(
+                      constraints: constraints,
+                      carController: _carController,
                     ),
                     LockScreen(
                       constraints: constraints,
@@ -106,6 +122,11 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                     BatteryScreen(
                       constraints: constraints,
                       animationController: _batteryAnimationController,
+                    ),
+                    TemperatureScreen(
+                      constraints: constraints,
+                      animationController: _temperatureAnimationController,
+                      carController: _carController,
                     ),
                   ],
                 );

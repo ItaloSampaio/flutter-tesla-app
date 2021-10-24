@@ -12,6 +12,8 @@ class _SVGs {
 
   String get car => 'assets/svgs/car.svg';
 
+  String get carretUp => 'assets/svgs/carret_up.svg';
+
   String get charge => 'assets/svgs/charge.svg';
 
   String get coolShape => 'assets/svgs/cool_shape.svg';

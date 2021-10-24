@@ -1,0 +1,1 @@
+enum AirConditioningMode { cool, heat }
