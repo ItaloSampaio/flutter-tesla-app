@@ -77,7 +77,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
               if (index == 1) {
                 forward = () => _batteryAnimationController.forward();
               } else if (_homeController.selectedBottomTabIndex == 1) {
-                reverse = () => _batteryAnimationController.reverse(from: 0.75);
+                reverse = () => _batteryAnimationController.reverse();
               }
 
               if (index == 2) {
