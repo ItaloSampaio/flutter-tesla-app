@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:tesla_app/presentation/core/assets.dart';
+import 'package:tesla_app/presentation/core/asset_paths.dart';
 import 'package:tesla_app/presentation/core/constants.dart';
 
 class TemperatureSelector extends StatelessWidget {
@@ -64,7 +64,7 @@ class _ArrowButton extends StatelessWidget {
         child: RotatedBox(
           quarterTurns: direction == _ArrowButtonDirection.up ? 0 : 2,
           child: SvgPicture.asset(
-            Assets.svgs.carretUp,
+            AssetPaths.svgs.carretUp,
             width: constraints.maxWidth * 0.05,
           ),
         ),

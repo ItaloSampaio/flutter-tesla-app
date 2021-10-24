@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:tesla_app/presentation/core/assets.dart';
+import 'package:tesla_app/presentation/core/asset_paths.dart';
 import 'package:tesla_app/presentation/core/constants.dart';
 
 import '../air_conditioning_mode.dart';
@@ -27,7 +27,7 @@ class AirConditioningModeRadioGroup extends StatelessWidget {
             _AirConditioningModeRadioButton(
               constraints: constraints,
               isSelected: currentMode == AirConditioningMode.cool,
-              iconSource: Assets.svgs.coolShape,
+              iconSource: AssetPaths.svgs.coolShape,
               label: 'Cool',
               color: kPrimaryColor,
               onPress: () => onChange(AirConditioningMode.cool),
@@ -38,7 +38,7 @@ class AirConditioningModeRadioGroup extends StatelessWidget {
             _AirConditioningModeRadioButton(
               constraints: constraints,
               isSelected: currentMode == AirConditioningMode.heat,
-              iconSource: Assets.svgs.heatShape,
+              iconSource: AssetPaths.svgs.heatShape,
               label: 'Heat',
               color: kSecondaryColor,
               onPress: () => onChange(AirConditioningMode.heat),

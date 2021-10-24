@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:tesla_app/presentation/core/assets.dart';
+import 'package:tesla_app/presentation/core/asset_paths.dart';
 import 'package:tesla_app/presentation/core/constants.dart';
 
 final List<String> _iconSources = [
-  Assets.svgs.lock,
-  Assets.svgs.charge,
-  Assets.svgs.temp,
-  Assets.svgs.tyre,
+  AssetPaths.svgs.lock,
+  AssetPaths.svgs.charge,
+  AssetPaths.svgs.temp,
+  AssetPaths.svgs.tyre,
 ];
 
 class BottomTabBar extends StatelessWidget {

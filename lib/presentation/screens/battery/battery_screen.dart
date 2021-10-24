@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:tesla_app/presentation/core/assets.dart';
+import 'package:tesla_app/presentation/core/asset_paths.dart';
 
 import 'widgets/battery_status.dart';
 
@@ -41,7 +41,7 @@ class BatteryScreen extends StatelessWidget {
                         child: Opacity(
                           opacity: _batteryOpacity.value,
                           child: SvgPicture.asset(
-                            Assets.svgs.battery,
+                            AssetPaths.svgs.battery,
                             width: constraints.maxWidth * 0.45,
                           ),
                         ),

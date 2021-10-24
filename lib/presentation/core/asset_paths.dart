@@ -1,12 +1,12 @@
-class Assets {
-  static final svgs = _SVGs._();
-  static final images = _Images._();
+class AssetPaths {
+  static final svgs = _SVGPaths._();
+  static final images = _ImagePaths._();
 
-  Assets._();
+  AssetPaths._();
 }
 
-class _SVGs {
-  _SVGs._();
+class _SVGPaths {
+  _SVGPaths._();
 
   String get battery => 'assets/svgs/battery.svg';
 
@@ -33,8 +33,8 @@ class _SVGs {
   String get unlockRounded => 'assets/svgs/unlock_rounded.svg';
 }
 
-class _Images {
-  _Images._();
+class _ImagePaths {
+  _ImagePaths._();
 
   String get coolGlow => 'assets/images/cool_glow.png';
 

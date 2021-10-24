@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:tesla_app/presentation/core/assets.dart';
+import 'package:tesla_app/presentation/core/asset_paths.dart';
 import 'package:tesla_app/presentation/core/constants.dart';
 
 class LockButton extends StatelessWidget {
@@ -24,11 +24,11 @@ class LockButton extends StatelessWidget {
             ScaleTransition(scale: animation, child: child),
         child: isLocked
             ? SvgPicture.asset(
-                Assets.svgs.lockRounded,
+                AssetPaths.svgs.lockRounded,
                 key: const ValueKey('lock'),
               )
             : SvgPicture.asset(
-                Assets.svgs.unlockRounded,
+                AssetPaths.svgs.unlockRounded,
                 key: const ValueKey('unlock'),
               ),
       ),

@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:tesla_app/presentation/core/assets.dart';
+import 'package:tesla_app/presentation/core/asset_paths.dart';
 import 'package:tesla_app/presentation/core/constants.dart';
 
 class CarBackground extends StatelessWidget {
@@ -75,7 +75,7 @@ class CarBackground extends StatelessWidget {
         );
       },
       child: SvgPicture.asset(
-        Assets.svgs.car,
+        AssetPaths.svgs.car,
         width: size.width,
         height: size.height,
       ),
