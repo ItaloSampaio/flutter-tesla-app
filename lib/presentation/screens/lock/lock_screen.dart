@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:tesla_app/presentation/core/constants.dart';
 import 'package:tesla_app/presentation/screens/lock/lock_controller.dart';
 
 import 'widgets/widgets.dart';
@@ -76,14 +75,12 @@ class LockScreen extends StatelessWidget {
     double? top,
     double? bottom,
   }) {
-    return AnimatedPositioned(
-      duration: kDefaultDuration,
+    return Positioned(
       left: left,
       right: right,
       top: top,
       bottom: bottom,
-      child: AnimatedOpacity(
-        duration: kDefaultDuration,
+      child: Opacity(
         opacity: animationController.value,
         child: LockButton(
           isLocked: _lockController.isLocked(carLock),
