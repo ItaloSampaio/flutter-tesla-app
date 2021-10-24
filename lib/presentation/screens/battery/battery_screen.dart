@@ -29,34 +29,36 @@ class BatteryScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return AnimatedBuilder(
       animation: animationController,
-      builder: (context, snapshot) {
-        return Scaffold(
-          backgroundColor: Colors.transparent,
-          body: SafeArea(
-            child: Stack(
-              children: [
-                Center(
-                  child: Opacity(
-                    opacity: _batteryAnimation.value,
-                    child: SvgPicture.asset(
-                      Assets.svgs.battery,
-                      width: constraints.maxWidth * 0.45,
-                    ),
+      builder: (context, _) {
+        return animationController.value == 0
+            ? const SizedBox()
+            : Scaffold(
+                backgroundColor: Colors.transparent,
+                body: SafeArea(
+                  child: Stack(
+                    children: [
+                      Center(
+                        child: Opacity(
+                          opacity: _batteryAnimation.value,
+                          child: SvgPicture.asset(
+                            Assets.svgs.battery,
+                            width: constraints.maxWidth * 0.45,
+                          ),
+                        ),
+                      ),
+                      Positioned(
+                        top: 50 * (1 - _statusAnimation.value),
+                        height: constraints.maxHeight,
+                        width: constraints.maxWidth,
+                        child: Opacity(
+                          opacity: _statusAnimation.value,
+                          child: BatteryStatus(constraints: constraints),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-                Positioned(
-                  top: 50 * (1 - _statusAnimation.value),
-                  height: constraints.maxHeight,
-                  width: constraints.maxWidth,
-                  child: Opacity(
-                    opacity: _statusAnimation.value,
-                    child: BatteryStatus(constraints: constraints),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        );
+              );
       },
     );
   }

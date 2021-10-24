@@ -37,33 +37,35 @@ class LockScreen extends StatelessWidget {
         _lockController,
         animationController,
       ]),
-      builder: (context, snapshot) {
-        return Scaffold(
-          backgroundColor: Colors.transparent,
-          body: SafeArea(
-            child: Stack(
-              alignment: Alignment.center,
-              children: [
-                buildLockButton(
-                  carLock: CarLock.leftDoor,
-                  left: _doorPosition.value,
+      builder: (context, _) {
+        return animationController.value == 0
+            ? const SizedBox()
+            : Scaffold(
+                backgroundColor: Colors.transparent,
+                body: SafeArea(
+                  child: Stack(
+                    alignment: Alignment.center,
+                    children: [
+                      buildLockButton(
+                        carLock: CarLock.leftDoor,
+                        left: _doorPosition.value,
+                      ),
+                      buildLockButton(
+                        carLock: CarLock.rightDoor,
+                        right: _doorPosition.value,
+                      ),
+                      buildLockButton(
+                        carLock: CarLock.hood,
+                        top: _hoodPosition.value,
+                      ),
+                      buildLockButton(
+                        carLock: CarLock.trunk,
+                        bottom: _trunkPosition.value,
+                      ),
+                    ],
+                  ),
                 ),
-                buildLockButton(
-                  carLock: CarLock.rightDoor,
-                  right: _doorPosition.value,
-                ),
-                buildLockButton(
-                  carLock: CarLock.hood,
-                  top: _hoodPosition.value,
-                ),
-                buildLockButton(
-                  carLock: CarLock.trunk,
-                  bottom: _trunkPosition.value,
-                ),
-              ],
-            ),
-          ),
-        );
+              );
       },
     );
   }
