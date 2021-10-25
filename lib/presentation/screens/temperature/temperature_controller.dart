@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:tesla_app/presentation/widgets/car_background.dart';
+import 'package:tesla_app/presentation/widgets/car_blueprint.dart';
 
 import 'air_conditioning_mode.dart';
 

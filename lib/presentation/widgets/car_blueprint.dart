@@ -5,12 +5,12 @@ import 'package:flutter_svg/svg.dart';
 import 'package:tesla_app/presentation/core/asset_paths.dart';
 import 'package:tesla_app/presentation/core/constants.dart';
 
-class CarBackground extends StatelessWidget {
+class CarBlueprint extends StatelessWidget {
   final BoxConstraints constraints;
   final CarController carController;
   final Size size;
 
-  CarBackground({
+  CarBlueprint({
     Key? key,
     required this.constraints,
     required this.carController,

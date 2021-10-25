@@ -111,7 +111,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                 return Stack(
                   alignment: Alignment.center,
                   children: [
-                    CarBackground(
+                    CarBlueprint(
                       constraints: constraints,
                       carController: _carController,
                     ),

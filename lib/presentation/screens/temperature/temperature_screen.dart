@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tesla_app/presentation/core/constants.dart';
-import 'package:tesla_app/presentation/widgets/car_background.dart';
+import 'package:tesla_app/presentation/widgets/car_blueprint.dart';
 
 import 'temperature_controller.dart';
 import 'widgets/widgets.dart';
