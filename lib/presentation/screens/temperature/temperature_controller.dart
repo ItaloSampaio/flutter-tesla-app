@@ -18,10 +18,10 @@ class TemperatureController extends ChangeNotifier {
 
   void changeAirConditioningMode(AirConditioningMode mode) {
     _currentMode = mode;
-    carController.changeBackgroundColor(
+    carController.changeInsideColor(
       _currentMode == AirConditioningMode.cool
-          ? CarColor.primary
-          : CarColor.secondary,
+          ? CarInsideColor.primary
+          : CarInsideColor.secondary,
     );
     notifyListeners();
   }

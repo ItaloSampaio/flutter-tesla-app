@@ -84,11 +84,11 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                 forward = () async {
                   await _carController.move(CarPosition.right);
                   await _temperatureAnimationController.forward();
-                  _carController.isColorVisible = true;
+                  _carController.isInsideColorVisible = true;
                 };
               } else if (_homeController.selectedBottomTabIndex == 2) {
                 reverse = () async {
-                  _carController.isColorVisible = false;
+                  _carController.isInsideColorVisible = false;
                   await _temperatureAnimationController.reverse();
                   await _carController.move(CarPosition.center);
                 };

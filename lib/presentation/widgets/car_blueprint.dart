@@ -25,7 +25,7 @@ class CarBlueprint extends StatelessWidget {
     return AnimatedBuilder(
       animation: carController,
       builder: (_, child) {
-        final color = carController.color == CarColor.primary
+        final color = carController.insideColor == CarInsideColor.primary
             ? kPrimaryColor
             : kSecondaryColor;
 
@@ -46,24 +46,8 @@ class CarBlueprint extends StatelessWidget {
                     Align(
                       child: AnimatedOpacity(
                         duration: const Duration(milliseconds: 500),
-                        opacity: carController.isColorVisible ? 1 : 0,
-                        child: AnimatedContainer(
-                          duration: const Duration(milliseconds: 500),
-                          width: size.width,
-                          height: size.height / 1.03,
-                          decoration: BoxDecoration(
-                            borderRadius: const BorderRadius.all(
-                              Radius.circular(100),
-                            ),
-                            gradient: LinearGradient(
-                              colors: [
-                                color.withOpacity(0.01),
-                                color.withOpacity(0.3),
-                                color.withOpacity(0.01),
-                              ],
-                            ),
-                          ),
-                        ),
+                        opacity: carController.isInsideColorVisible ? 1 : 0,
+                        child: _InsideColor(size: size, color: color),
                       ),
                     ),
                     Align(child: child),
@@ -83,23 +67,55 @@ class CarBlueprint extends StatelessWidget {
   }
 }
 
+class _InsideColor extends StatelessWidget {
+  final Size size;
+  final Color color;
+
+  const _InsideColor({
+    Key? key,
+    required this.size,
+    required this.color,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return AnimatedContainer(
+      duration: const Duration(milliseconds: 500),
+      width: size.width,
+      height: size.height / 1.03,
+      decoration: BoxDecoration(
+        borderRadius: const BorderRadius.all(
+          Radius.circular(100),
+        ),
+        gradient: LinearGradient(
+          colors: [
+            color.withOpacity(0.01),
+            color.withOpacity(0.3),
+            color.withOpacity(0.01),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
 enum CarPosition { center, right }
-enum CarColor { primary, secondary }
+enum CarInsideColor { primary, secondary }
 
 class CarController extends ChangeNotifier {
   CarPosition _position = CarPosition.center;
   Completer? _moveCompleter;
-  CarColor _color = CarColor.primary;
-  bool _isColorVisible = false;
+  CarInsideColor _insideColor = CarInsideColor.primary;
+  bool _isInsideColorVisible = false;
 
   CarPosition get position => _position;
 
-  bool get isColorVisible => _isColorVisible;
+  bool get isInsideColorVisible => _isInsideColorVisible;
 
-  CarColor get color => _color;
+  CarInsideColor get insideColor => _insideColor;
 
-  set isColorVisible(bool value) {
-    _isColorVisible = value;
+  set isInsideColorVisible(bool value) {
+    _isInsideColorVisible = value;
     notifyListeners();
   }
 
@@ -114,8 +130,8 @@ class CarController extends ChangeNotifier {
     _moveCompleter?.complete();
   }
 
-  void changeBackgroundColor(CarColor color) {
-    _color = color;
+  void changeInsideColor(CarInsideColor insideColor) {
+    _insideColor = insideColor;
     notifyListeners();
   }
 }
