@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:tesla_app/presentation/core/constants.dart';
 import 'package:tesla_app/presentation/screens/battery/battery_screen.dart';
 import 'package:tesla_app/presentation/screens/lock/lock_screen.dart';
 import 'package:tesla_app/presentation/screens/temperature/temperature_screen.dart';
@@ -29,7 +28,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   void initState() {
     _lockAnimationController = AnimationController(
       vsync: this,
-      duration: kDefaultDuration,
+      duration: const Duration(milliseconds: 400),
       value: 1,
     );
 
