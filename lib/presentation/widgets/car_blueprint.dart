@@ -45,6 +45,16 @@ class CarBlueprint extends StatelessWidget {
                   children: [
                     Align(
                       child: AnimatedOpacity(
+                        duration: const Duration(milliseconds: 300),
+                        opacity: carController.areTyresVisible ? 1 : 0,
+                        child: _Tyres(
+                          size: size,
+                          constraints: constraints,
+                        ),
+                      ),
+                    ),
+                    Align(
+                      child: AnimatedOpacity(
                         duration: const Duration(milliseconds: 500),
                         opacity: carController.isInsideColorVisible ? 1 : 0,
                         child: _InsideColor(size: size, color: color),
@@ -62,6 +72,57 @@ class CarBlueprint extends StatelessWidget {
         AssetPaths.svgs.car,
         width: size.width,
         height: size.height,
+      ),
+    );
+  }
+}
+
+class _Tyres extends StatelessWidget {
+  final BoxConstraints constraints;
+  final Size size;
+
+  const _Tyres({
+    Key? key,
+    required this.constraints,
+    required this.size,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: size.width,
+      height: size.height,
+      child: Stack(
+        children: [
+          Align(
+            alignment: const Alignment(-0.97, -0.71),
+            child: SvgPicture.asset(
+              AssetPaths.svgs.flTyre,
+              height: constraints.maxHeight * 0.1,
+            ),
+          ),
+          Align(
+            alignment: const Alignment(0.97, -0.71),
+            child: SvgPicture.asset(
+              AssetPaths.svgs.flTyre,
+              height: constraints.maxHeight * 0.1,
+            ),
+          ),
+          Align(
+            alignment: const Alignment(-0.97, 0.55),
+            child: SvgPicture.asset(
+              AssetPaths.svgs.flTyre,
+              height: constraints.maxHeight * 0.1,
+            ),
+          ),
+          Align(
+            alignment: const Alignment(0.97, 0.55),
+            child: SvgPicture.asset(
+              AssetPaths.svgs.flTyre,
+              height: constraints.maxHeight * 0.1,
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -106,13 +167,21 @@ class CarController extends ChangeNotifier {
   CarPosition _position = CarPosition.center;
   Completer? _moveCompleter;
   CarInsideColor _insideColor = CarInsideColor.primary;
+  bool _areTyresVisible = false;
   bool _isInsideColorVisible = false;
 
   CarPosition get position => _position;
 
   bool get isInsideColorVisible => _isInsideColorVisible;
 
+  bool get areTyresVisible => _areTyresVisible;
+
   CarInsideColor get insideColor => _insideColor;
+
+  set areTyresVisible(bool value) {
+    _areTyresVisible = value;
+    notifyListeners();
+  }
 
   set isInsideColorVisible(bool value) {
     _isInsideColorVisible = value;

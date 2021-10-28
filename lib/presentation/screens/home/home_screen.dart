@@ -3,6 +3,7 @@ import 'package:tesla_app/presentation/core/constants.dart';
 import 'package:tesla_app/presentation/screens/battery/battery_screen.dart';
 import 'package:tesla_app/presentation/screens/lock/lock_screen.dart';
 import 'package:tesla_app/presentation/screens/temperature/temperature_screen.dart';
+import 'package:tesla_app/presentation/screens/tyre/tyre_screen.dart';
 import 'package:tesla_app/presentation/widgets/widgets.dart';
 
 import 'home_controller.dart';
@@ -22,6 +23,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   late AnimationController _lockAnimationController;
   late AnimationController _batteryAnimationController;
   late AnimationController _temperatureAnimationController;
+  late AnimationController _tyreAnimationController;
 
   @override
   void initState() {
@@ -41,6 +43,11 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       duration: const Duration(milliseconds: 400),
     );
 
+    _tyreAnimationController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 600),
+    );
+
     super.initState();
   }
 
@@ -49,6 +56,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     _lockAnimationController.dispose();
     _batteryAnimationController.dispose();
     _temperatureAnimationController.dispose();
+    _tyreAnimationController.dispose();
     _carController.dispose();
     super.dispose();
   }
@@ -94,6 +102,18 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                 };
               }
 
+              if (index == 3) {
+                forward = () async {
+                  _carController.areTyresVisible = true;
+                  await _tyreAnimationController.forward();
+                };
+              } else if (_homeController.selectedBottomTabIndex == 3) {
+                reverse = () async {
+                  _carController.areTyresVisible = false;
+                  await _tyreAnimationController.reverse();
+                };
+              }
+
               if (reverse != null) {
                 await reverse();
               }
@@ -128,6 +148,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                       animationController: _temperatureAnimationController,
                       carController: _carController,
                     ),
+                    TyreScreen(animationController: _tyreAnimationController),
                   ],
                 );
               },
