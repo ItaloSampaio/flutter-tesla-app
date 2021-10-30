@@ -106,7 +106,6 @@ class _LockScreenState extends State<LockScreen> {
     double? top,
     double? bottom,
   }) {
-    print(widget._opacity.value);
     return Positioned(
       left: left,
       right: right,
