@@ -91,7 +91,7 @@ class _TemperatureScreenState extends State<TemperatureScreen> {
                                 ),
                               ),
                               Positioned(
-                                top: widget.constraints.maxHeight * 0.45,
+                                top: widget.constraints.maxHeight * 0.425,
                                 child: TemperatureSelector(
                                   constraints: widget.constraints,
                                   value: _temperatureController.temperature,

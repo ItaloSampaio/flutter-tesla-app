@@ -55,10 +55,9 @@ class _ArrowButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      behavior: HitTestBehavior.translucent,
-      onTap: onPress,
-      child: AnimatedContainer(
+    return IconButton(
+      onPressed: onPress,
+      icon: AnimatedContainer(
         duration: kDefaultDuration,
         width: 30,
         child: RotatedBox(
