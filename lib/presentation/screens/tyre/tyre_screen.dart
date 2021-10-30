@@ -27,81 +27,83 @@ class TyreScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.transparent,
-      body: SafeArea(
-        child: SizedBox.expand(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(
-              vertical: kDefaultPadding,
-              horizontal: kDefaultPadding,
-            ),
-            child: AnimatedBuilder(
-              animation: animationController,
-              builder: (context, bhild) {
-                return Column(
-                  children: [
-                    Expanded(
-                      child: Row(
+    return AnimatedBuilder(
+      animation: animationController,
+      builder: (context, bhild) {
+        return animationController.value == 0
+            ? const SizedBox()
+            : Scaffold(
+                backgroundColor: Colors.transparent,
+                body: SafeArea(
+                  child: SizedBox.expand(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                        vertical: kDefaultPadding,
+                        horizontal: kDefaultPadding,
+                      ),
+                      child: Column(
                         children: [
                           Expanded(
-                            child: Transform.scale(
-                              scale: _animations[0].value,
-                              child: const TyreStatus(
-                                psi: 23.6,
-                                temperature: 56,
-                                isLowPressure: true,
-                              ),
+                            child: Row(
+                              children: [
+                                Expanded(
+                                  child: Transform.scale(
+                                    scale: _animations[0].value,
+                                    child: const TyreStatus(
+                                      psi: 23.6,
+                                      temperature: 56,
+                                      isLowPressure: true,
+                                    ),
+                                  ),
+                                ),
+                                const SizedBox(width: kDefaultPadding),
+                                Expanded(
+                                  child: Transform.scale(
+                                    scale: _animations[1].value,
+                                    child: const TyreStatus(
+                                      psi: 35.0,
+                                      temperature: 41,
+                                    ),
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
-                          const SizedBox(width: kDefaultPadding),
+                          const SizedBox(height: kDefaultPadding),
                           Expanded(
-                            child: Transform.scale(
-                              scale: _animations[1].value,
-                              child: const TyreStatus(
-                                psi: 35.0,
-                                temperature: 41,
-                              ),
+                            child: Row(
+                              children: [
+                                Expanded(
+                                  child: Transform.scale(
+                                    scale: _animations[2].value,
+                                    child: const TyreStatus(
+                                      psi: 34.6,
+                                      temperature: 41,
+                                      isInverted: true,
+                                    ),
+                                  ),
+                                ),
+                                const SizedBox(width: kDefaultPadding),
+                                Expanded(
+                                  child: Transform.scale(
+                                    scale: _animations[3].value,
+                                    child: const TyreStatus(
+                                      psi: 34.8,
+                                      temperature: 42,
+                                      isInverted: true,
+                                    ),
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
                         ],
                       ),
                     ),
-                    const SizedBox(height: kDefaultPadding),
-                    Expanded(
-                      child: Row(
-                        children: [
-                          Expanded(
-                            child: Transform.scale(
-                              scale: _animations[2].value,
-                              child: const TyreStatus(
-                                psi: 34.6,
-                                temperature: 41,
-                                isInverted: true,
-                              ),
-                            ),
-                          ),
-                          const SizedBox(width: kDefaultPadding),
-                          Expanded(
-                            child: Transform.scale(
-                              scale: _animations[3].value,
-                              child: const TyreStatus(
-                                psi: 34.8,
-                                temperature: 42,
-                                isInverted: true,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                );
-              },
-            ),
-          ),
-        ),
-      ),
+                  ),
+                ),
+              );
+      },
     );
   }
 }

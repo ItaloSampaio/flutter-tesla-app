@@ -10,7 +10,9 @@ class LockController extends ChangeNotifier {
     CarLock.trunk: true,
   };
 
-  bool isLocked(CarLock carLock) => _carLocks[carLock] ?? true;
+  bool isLocked(CarLock carLock) {
+    return _carLocks[carLock] ?? true;
+  }
 
   void toggleCarLock(CarLock carLock) {
     _carLocks[carLock] = !(_carLocks[carLock] ?? true);
