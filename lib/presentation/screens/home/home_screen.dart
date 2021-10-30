@@ -63,10 +63,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return AnimatedBuilder(
-      animation: Listenable.merge([
-        _homeController,
-        // _carController,
-      ]),
+      animation: _homeController,
       builder: (context, _) {
         return Scaffold(
           bottomNavigationBar: BottomTabBar(
